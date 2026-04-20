@@ -3,57 +3,44 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true
-    },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      index: true
-    },
-
+    firstName: String,
+    lastName: String,
+    email: { type: String, required: true, unique: true, lowercase: true },
     password: {
       type: String,
-      required: true,
-      select: false
+      required: function () {
+        return !this.googleId;
+      },
     },
-
     role: {
       type: String,
-      enum: ["admin", "teacher", "student"],
-      required: true
+      enum: ["student", "teacher", "admin"],
+      default: "student",
+      required: true,
     },
-
-    isActive: {
-      type: Boolean,
-      default: true
-    },
-
-    // Forget Password
-    passwordResetToken: String,
-    passwordResetExpire: Date
+    googleId: String,
+    isVerified: { type: Boolean, default: false }, // حقل أساسي
+    verifyOtp: String,
+    verifyOtpExpires: Date,
+    passwordResetCode: String,
+    passwordResetExpires: Date,
+    passwordResetverified: Boolean,
+    isActive: { type: Boolean, default: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // تشفير الباسورد قبل الحفظ
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password") || !this.password) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
-
 // حذف الباسورد من أي JSON بيرجع
 userSchema.set("toJSON", {
   transform: function (doc, ret) {
     delete ret.password;
     return ret;
-  }
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
