@@ -1,0 +1,663 @@
+<!-- <div
+  class="min-h-screen flex flex-col items-center justify-center p-md lg:p-lg bg-surface-bright text-on-surface"
+>
+  <div class="flex flex-col items-center text-center mb-5">
+    <div class="flex items-center gap-2 mb-3">
+      <span
+        class="material-symbols-outlined text-[36px] text-primary"
+        style="font-variation-settings: &quot;FILL&quot; 1"
+        >school</span
+      >
+      <span
+        class="text-[28px] font-bold text-primary tracking-tight font-headline"
+        >EduLearn</span
+      >
+    </div>
+    <h1
+      class="text-[28px] font-bold text-on-surface leading-tight mb-2 font-headline"
+    >
+      Join Us
+    </h1>
+    <p class="text-[15px] text-on-surface-variant font-normal">
+      Continue your learning journey today.
+    </p>
+  </div>
+
+  <div
+    class="w-full max-w-[440px] bg-surface-container-lowest border border-surface-container rounded-[12px] shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-5"
+  >
+    <div
+      *ngIf="errorMessage"
+      class="mb-4 p-3 bg-red-100 text-red-700 rounded-[8px] text-[13px] text-center font-medium"
+    >
+      {{ errorMessage }}
+    </div>
+    <div
+      *ngIf="successMessage"
+      class="mb-4 p-3 bg-green-100 text-green-700 rounded-[8px] text-[13px] text-center font-medium"
+    >
+      {{ successMessage }}
+    </div>
+
+    <div class="flex bg-surface-container-low rounded-[8px] p-1 mb-5">
+      <a
+        class="flex-1 text-center py-2.5 text-[14px] font-medium text-on-surface-variant hover:text-on-surface transition-colors rounded-[6px]"
+        routerLink="/signin"
+        routerLinkActive="bg-white text-[#019ce4] shadow-sm" 
+        >Sign In</a
+      >
+      <a
+        class="flex-1 text-center py-2.5 text-[14px] font-semibold text-primary bg-surface-container-lowest shadow-sm rounded-[6px]"
+        routerLink="/register"
+        routerLinkActive="bg-white text-[#019ce4] shadow-sm"
+        >Create Account</a
+      >
+    </div>
+
+    <div class="grid gap-4 grid-cols-1">
+      <button
+        (click)="loginWithGoogle()"
+        type="button"
+        class="flex items-center justify-center gap-2 border border-outline-variant rounded-[8px] py-2.5 px-4 text-[14px] font-medium text-on-surface hover:bg-surface-container-low transition-colors focus:ring-2 focus:ring-primary focus:outline-none"
+      >
+        <svg
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4"
+          ></path>
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853"
+          ></path>
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            fill="#FBBC05"
+          ></path>
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            fill="#EA4335"
+          ></path>
+        </svg>
+        Google
+      </button>
+    </div>
+
+    <div class="h-5"></div>
+    <div class="relative flex items-center justify-center">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-surface-container-high"></div>
+      </div>
+      <span
+        class="relative px-4 text-[11px] font-bold text-outline tracking-wider uppercase bg-surface-container-lowest"
+        >OR CONTINUE WITH</span
+      >
+    </div>
+    <div class="h-5"></div>
+
+    <form
+      #registerForm="ngForm"
+      (ngSubmit)="onSubmit(registerForm)"
+      class="flex flex-col gap-3.5"
+      novalidate
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div>
+          <label
+            class="block text-[13px] font-semibold text-on-surface mb-1.5"
+            for="firstName"
+            >First Name</label
+          >
+          <div class="relative">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+              >person</span
+            >
+            <input
+              #inputRef
+              #fName="ngModel"
+              [(ngModel)]="formData.firstName"
+              name="firstName"
+              required
+              class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500':
+                  fName.invalid && fName.touched,
+              }"
+              id="firstName"
+              placeholder="Jane"
+              type="text"
+            />
+          </div>
+          <div
+            *ngIf="fName.invalid && fName.touched"
+            class="text-red-500 text-[11px] mt-1 font-medium"
+          >
+            First name is required
+          </div>
+        </div>
+
+        <div>
+          <label
+            class="block text-[13px] font-semibold text-on-surface mb-1.5"
+            for="lastName"
+            >Last Name</label
+          >
+          <div class="relative">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+              >person</span
+            >
+            <input
+              #inputRef
+              #lName="ngModel"
+              [(ngModel)]="formData.lastName"
+              name="lastName"
+              required
+              class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500':
+                  lName.invalid && lName.touched,
+              }"
+              id="lastName"
+              placeholder="Doe"
+              type="text"
+            />
+          </div>
+          <div
+            *ngIf="lName.invalid && lName.touched"
+            class="text-red-500 text-[11px] mt-1 font-medium"
+          >
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="email"
+          >Email Address</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >mail</span
+          >
+          <input
+            #inputRef
+            #emailModel="ngModel"
+            [(ngModel)]="formData.email"
+            name="email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                emailModel.invalid && emailModel.touched,
+            }"
+            id="email"
+            placeholder="name@example.com"
+            type="email"
+          />
+        </div>
+        <div
+          *ngIf="emailModel.errors?.['required'] && emailModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Email is required
+        </div>
+        <div
+          *ngIf="emailModel.errors?.['pattern'] && emailModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Please enter a valid email address (e.g., name@domain.com)
+        </div>
+      </div>
+
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="password"
+          >Password</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >lock</span
+          >
+          <input
+            #inputRef
+            #passModel="ngModel"
+            [(ngModel)]="formData.password"
+            name="password"
+            required
+            minlength="6"
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-10 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                passModel.invalid && passModel.touched,
+            }"
+            id="password"
+            placeholder="••••••••"
+            type="password"
+          />
+        </div>
+        <div
+          *ngIf="passModel.errors?.['required'] && passModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Password is required
+        </div>
+        <div
+          *ngIf="passModel.errors?.['minlength'] && passModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="confirmPassword"
+          >Confirm Password</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >lock</span
+          >
+          <input
+            #inputRef
+            #confPassModel="ngModel"
+            [(ngModel)]="formData.confirmPassword"
+            name="confirmPassword"
+            required
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-10 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                confPassModel.invalid && confPassModel.touched,
+            }"
+            id="confirmPassword"
+            placeholder="••••••••"
+            type="password"
+          />
+        </div>
+        <div
+          *ngIf="confPassModel.invalid && confPassModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Please confirm your password
+        </div>
+      </div>
+
+      <button
+        [disabled]="isLoading"
+        type="submit"
+        class="w-full bg-primary text-on-primary rounded-[8px] py-3 px-4 text-[14px] font-semibold hover:bg-sky-500  transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:outline-none mt-2 disabled:opacity-50"
+      >
+        {{ isLoading ? "Creating Account..." : "Create Account" }}
+      </button>
+    </form>
+
+    <div class="border-t border-surface-container-high text-center mt-6 pt-5">
+      <p class="text-[14px] text-on-surface-variant mb-1">
+        Want to teach with us?
+      </p>
+      <a
+        class="inline-flex items-center gap-1 text-[14px] font-semibold text-primary hover:opacity-80 transition-opacity"
+        routerLink="/becomeinstructor"
+      >
+        Apply as a EduLearn Instructor
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+  <div
+    class="flex items-center justify-center gap-2 text-[13px] font-medium text-on-surface-variant mb-3 mt-5"
+  >
+    <span class="material-symbols-outlined text-[18px] text-primary"
+      >verified_user</span
+    >
+    Secure AES-256 Encryption & GDPR Compliant Data Privacy
+  </div>
+</div> -->
+<div
+  class="min-h-screen flex flex-col items-center justify-center p-md lg:p-lg bg-surface-bright text-on-surface"
+>
+  <div class="flex flex-col items-center text-center mb-5">
+    <div class="flex items-center gap-2 mb-3">
+      <span
+        class="material-symbols-outlined text-[36px] text-primary"
+        style="font-variation-settings: &quot;FILL&quot; 1"
+        >school</span
+      >
+      <span
+        class="text-[28px] font-bold text-primary tracking-tight font-headline"
+        >EduLearn</span
+      >
+    </div>
+    <h1
+      class="text-[28px] font-bold text-on-surface leading-tight mb-2 font-headline"
+    >
+      Join Us
+    </h1>
+    <p class="text-[15px] text-on-surface-variant font-normal">
+      Continue your learning journey today.
+    </p>
+  </div>
+
+  <div
+    class="w-full max-w-[440px] bg-surface-container-lowest border border-surface-container rounded-[12px] shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-5"
+  >
+    <div
+      *ngIf="errorMessage"
+      class="mb-4 p-3 bg-red-100 text-red-700 rounded-[8px] text-[13px] text-center font-medium"
+    >
+      {{ errorMessage }}
+    </div>
+    <div
+      *ngIf="successMessage"
+      class="mb-4 p-3 bg-green-100 text-green-700 rounded-[8px] text-[13px] text-center font-medium"
+    >
+      {{ successMessage }}
+    </div>
+
+    <div class="flex bg-surface-container-low rounded-[8px] p-1 mb-5">
+      <a
+        class="flex-1 text-center py-2.5 text-[14px] font-medium text-on-surface-variant hover:text-on-surface transition-colors rounded-[6px]"
+        routerLink="/signin"
+        routerLinkActive="bg-white text-[#019ce4] shadow-sm"
+        >Sign In</a
+      >
+      <a
+        class="flex-1 text-center py-2.5 text-[14px] font-semibold text-primary bg-surface-container-lowest shadow-sm rounded-[6px]"
+        routerLink="/register"
+        routerLinkActive="bg-white text-[#019ce4] shadow-sm"
+        >Create Account</a
+      >
+    </div>
+
+    <div class="grid gap-4 grid-cols-1">
+      <button
+        (click)="loginWithGoogle()"
+        type="button"
+        class="flex items-center justify-center gap-2 border border-outline-variant rounded-[8px] py-2.5 px-4 text-[14px] font-medium text-on-surface hover:bg-surface-container-low transition-colors focus:ring-2 focus:ring-primary focus:outline-none"
+      >
+        <svg
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4"
+          ></path>
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853"
+          ></path>
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            fill="#FBBC05"
+          ></path>
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            fill="#EA4335"
+          ></path>
+        </svg>
+        Google
+      </button>
+    </div>
+
+    <div class="h-5"></div>
+    <div class="relative flex items-center justify-center">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-surface-container-high"></div>
+      </div>
+      <span
+        class="relative px-4 text-[11px] font-bold text-outline tracking-wider uppercase bg-surface-container-lowest"
+        >OR CONTINUE WITH</span
+      >
+    </div>
+    <div class="h-5"></div>
+
+    <form
+      #registerForm="ngForm"
+      (ngSubmit)="onSubmit(registerForm)"
+      class="flex flex-col gap-3.5"
+      novalidate
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div>
+          <label
+            class="block text-[13px] font-semibold text-on-surface mb-1.5"
+            for="firstName"
+            >First Name</label
+          >
+          <div class="relative">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+              >person</span
+            >
+            <input
+              #inputRef
+              #fName="ngModel"
+              [(ngModel)]="formData.firstName"
+              name="firstName"
+              required
+              class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500':
+                  fName.invalid && fName.touched,
+              }"
+              id="firstName"
+              placeholder="Jane"
+              type="text"
+            />
+          </div>
+          <div
+            *ngIf="fName.invalid && fName.touched"
+            class="text-red-500 text-[11px] mt-1 font-medium"
+          >
+            First name is required
+          </div>
+        </div>
+
+        <div>
+          <label
+            class="block text-[13px] font-semibold text-on-surface mb-1.5"
+            for="lastName"
+            >Last Name</label
+          >
+          <div class="relative">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+              >person</span
+            >
+            <input
+              #inputRef
+              #lName="ngModel"
+              [(ngModel)]="formData.lastName"
+              name="lastName"
+              required
+              class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500':
+                  lName.invalid && lName.touched,
+              }"
+              id="lastName"
+              placeholder="Doe"
+              type="text"
+            />
+          </div>
+          <div
+            *ngIf="lName.invalid && lName.touched"
+            class="text-red-500 text-[11px] mt-1 font-medium"
+          >
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="email"
+          >Email Address</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >mail</span
+          >
+          <input
+            #inputRef
+            #emailModel="ngModel"
+            [(ngModel)]="formData.email"
+            name="email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-4 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                emailModel.invalid && emailModel.touched,
+            }"
+            id="email"
+            placeholder="name@example.com"
+            type="email"
+          />
+        </div>
+        <div
+          *ngIf="emailModel.errors?.['required'] && emailModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Email is required
+        </div>
+        <div
+          *ngIf="emailModel.errors?.['pattern'] && emailModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Please enter a valid email address
+        </div>
+      </div>
+
+      <!-- 👇 التعديل هنا في حقل الباسورد 👇 -->
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="password"
+          >Password</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >lock</span
+          >
+          <input
+            #inputRef
+            #passModel="ngModel"
+            [(ngModel)]="formData.password"
+            (ngModelChange)="checkPassword($event)"
+            name="password"
+            required
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-10 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                passModel.invalid && passModel.touched,
+            }"
+            id="password"
+            placeholder="••••••••"
+            type="password"
+          />
+        </div>
+        
+        <!-- التعليق الديناميكي الموحد اللي بيغير لونه بناء على التايب سكريبت -->
+        <div 
+          *ngIf="formData.password || passModel.touched" 
+          class="text-[11px] mt-1 font-medium transition-colors duration-300" 
+          [ngClass]="formData.password ? strengthColor : 'text-red-500'"
+        >
+          {{ formData.password ? strengthText : 'Password is required ' }}
+        </div>
+      </div>
+      <!-- 👆 نهاية تعديل الباسورد 👆 -->
+<!-- 👇 Confirm Password بعد التعديل اللحظي 👇 -->
+      <div>
+        <label
+          class="block text-[13px] font-semibold text-on-surface mb-1.5"
+          for="confirmPassword"
+          >Confirm Password</label
+        >
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-outline"
+            >lock</span
+          >
+          <input
+            #inputRef
+            #confPassModel="ngModel"
+            [(ngModel)]="formData.confirmPassword"
+            name="confirmPassword"
+            required
+            class="w-full border border-outline-variant rounded-[8px] pl-10 pr-10 py-2.5 text-[14px] font-normal text-on-surface focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none bg-surface-container-lowest placeholder:text-outline/60 transition-colors duration-200"
+            [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                (confPassModel.invalid && confPassModel.touched) || (formData.confirmPassword && formData.password !== formData.confirmPassword)
+            }"
+            id="confirmPassword"
+            placeholder="••••••••"
+            type="password"
+          />
+        </div>
+        <!-- رسالة لو الحقل فاضي -->
+        <div
+          *ngIf="confPassModel.invalid && confPassModel.touched"
+          class="text-red-500 text-[11px] mt-1 font-medium"
+        >
+          Please confirm your password
+        </div>
+        <!-- رسالة عدم التطابق اللحظية -->
+        <div 
+          *ngIf="formData.confirmPassword && formData.password !== formData.confirmPassword" 
+          class="text-[11px] mt-1 font-bold text-red-500 transition-colors duration-300"
+        >
+          Passwords do not match
+        </div>
+      </div>
+      <!-- 👆 نهاية التعديل 👆 -->
+      <button
+        [disabled]="isLoading"
+        type="submit"
+        class="w-full bg-primary text-on-primary rounded-[8px] py-3 px-4 text-[14px] font-semibold hover:bg-sky-500 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:outline-none mt-2 disabled:opacity-50"
+      >
+        {{ isLoading ? "Creating Account..." : "Create Account" }}
+      </button>
+    </form>
+
+    <div class="border-t border-surface-container-high text-center mt-6 pt-5">
+      <p class="text-[14px] text-on-surface-variant mb-1">
+        Want to teach with us?
+      </p>
+      <a
+        class="inline-flex items-center gap-1 text-[14px] font-semibold text-primary hover:opacity-80 transition-opacity"
+        routerLink="/becomeinstructor"
+      >
+        Apply as an EduLearn Instructor
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+  <div
+    class="flex items-center justify-center gap-2 text-[13px] font-medium text-on-surface-variant mb-3 mt-5"
+  >
+    <span class="material-symbols-outlined text-[18px] text-primary"
+      >verified_user</span
+    >
+    Secure AES-256 Encryption & GDPR Compliant Data Privacy
+  </div>
+</div>

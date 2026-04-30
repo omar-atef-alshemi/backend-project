@@ -1,0 +1,310 @@
+<div class="min-h-screen bg-[#f7f9ff] py-12 px-4 font-sans animate-in fade-in slide-in-from-bottom-4 duration-500">
+  <main class="max-w-[760px] mx-auto flex flex-col items-center">
+    
+    <!-- Brand Header -->
+    <div class="text-center mb-8">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <span class="material-symbols-outlined text-[#019ce4] text-[40px]" style='font-variation-settings: "FILL" 1;'>school</span>
+        <span class="text-[32px] font-bold text-[#019ce4] tracking-tight">EduLearn</span>
+      </div>
+      <h2 class="text-[28px] font-bold text-[#181c21] mb-2">Become an Instructor</h2>
+      <p class="text-[15px] text-[#3f4851] max-w-[480px] mx-auto leading-relaxed">
+        Share your expertise with the next generation of professionals. Join our global network of industry-leading educators.
+      </p>
+    </div>
+
+    <!-- Main Card Container -->
+    <div class="w-full bg-white border border-[#ebeef5] rounded-[16px] shadow-[0_4px_24px_rgba(24,28,33,0.06),0_1px_4px_rgba(24,28,33,0.04)] overflow-hidden p-6 md:p-12 relative z-10">
+      
+      <!-- Alerts -->
+      <div *ngIf="errorMessage" class="mb-6 p-3 bg-red-100 text-red-700 rounded-[8px] text-[13px] text-center font-medium border border-red-200">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="mb-6 p-3 bg-green-100 text-green-700 rounded-[8px] text-[13px] text-center font-medium border border-green-200">
+        {{ successMessage }}
+      </div>
+
+      <form #teacherForm="ngForm" (ngSubmit)="onSubmit(teacherForm)" class="space-y-10" novalidate>
+        
+        <!-- Section 1: Personal Information -->
+        <section class="space-y-6">
+          <div class="flex items-center gap-3 pb-3 border-b border-[#f0f4fa]">
+            <span class="material-symbols-outlined text-[#019ce4] text-[22px]">person</span>
+            <h3 class="text-[18px] font-bold text-[#181c21]">Personal Information</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+            <!-- First Name -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">First Name</label>
+              <input #inputRef #fName="ngModel" name="firstName" [(ngModel)]="formData.firstName" required placeholder="John" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                [ngClass]="{'border-red-500 focus:ring-red-500': fName.invalid && fName.touched}">
+              <div *ngIf="fName.invalid && fName.touched" class="text-red-500 text-[11px] font-medium">First name is required</div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Last Name</label>
+              <input #inputRef #lName="ngModel" name="lastName" [(ngModel)]="formData.lastName" required placeholder="Doe" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                [ngClass]="{'border-red-500 focus:ring-red-500': lName.invalid && lName.touched}">
+              <div *ngIf="lName.invalid && lName.touched" class="text-red-500 text-[11px] font-medium">Last name is required</div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Email Address</label>
+              <input #inputRef #emailModel="ngModel" name="email" [(ngModel)]="formData.email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" type="email" placeholder="john.doe@example.com" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                [ngClass]="{'border-red-500 focus:ring-red-500': emailModel.invalid && emailModel.touched}">
+              <div *ngIf="emailModel.errors?.['required'] && emailModel.touched" class="text-red-500 text-[11px] font-medium">Email is required</div>
+              <div *ngIf="emailModel.errors?.['pattern'] && emailModel.touched" class="text-red-500 text-[11px] font-medium">Please enter a valid email address</div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Phone Number</label>
+              <input #inputRef #phoneModel="ngModel" name="phone" [(ngModel)]="formData.phone" required type="tel" placeholder="+1 (555) 000-0000" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                [ngClass]="{'border-red-500 focus:ring-red-500': phoneModel.invalid && phoneModel.touched}">
+              <div *ngIf="phoneModel.invalid && phoneModel.touched" class="text-red-500 text-[11px] font-medium">Phone number is required</div>
+            </div>
+
+            <!-- 👇 Password مع التحقق اللحظي 👇 -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Password</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#bec8d2] text-[20px]">lock</span>
+                <input #inputRef #passModel="ngModel" name="password" [(ngModel)]="formData.password" (ngModelChange)="checkPassword($event)" required minlength="6" type="password" placeholder="••••••••" 
+                  class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] pl-10 pr-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                  [ngClass]="{
+                    'border-red-500 focus:ring-red-500': passModel.invalid && passModel.touched,
+                    'border-green-500 focus:ring-green-500': strengthColor === 'text-green-500'
+                  }">
+              </div>
+              <!-- التعليق اللحظي -->
+              <div *ngIf="formData.password || passModel.touched" class="text-[11px] mt-1 font-bold transition-colors duration-300" [ngClass]="formData.password ? strengthColor : 'text-red-500'">
+                {{ formData.password ? strengthText : 'Password is required' }}
+              </div>
+            </div>
+
+            <!-- 👇 Confirm Password 👇 -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Confirm Password</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#bec8d2] text-[20px]">lock</span>
+                <input #inputRef #confPassModel="ngModel" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required type="password" placeholder="••••••••" 
+                  class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] pl-10 pr-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                  [ngClass]="{'border-red-500 focus:ring-red-500': confPassModel.invalid && confPassModel.touched || (formData.confirmPassword && formData.password !== formData.confirmPassword)}">
+              </div>
+              <div *ngIf="confPassModel.invalid && confPassModel.touched" class="text-red-500 text-[11px] font-medium">Please confirm your password</div>
+              <div *ngIf="formData.confirmPassword && formData.password !== formData.confirmPassword" class="text-[11px] font-bold text-red-500 mt-1">
+                Passwords do not match
+              </div>
+            </div>
+
+            <!-- Country -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Country</label>
+              <div class="relative">
+                <select #inputRef #countryModel="ngModel" name="country" [(ngModel)]="formData.country" required
+                  class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 appearance-none cursor-pointer"
+                  [ngClass]="{'border-red-500 focus:ring-red-500': countryModel.invalid && countryModel.touched}"
+                  style="background-image:url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%236f7882\' stroke-width=\'2\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px">
+                  <option value="" disabled selected>Select country</option>
+                  <option *ngFor="let c of countries" [value]="c.value">{{c.label}}</option>
+                </select>
+              </div>
+              <div *ngIf="countryModel.invalid && countryModel.touched" class="text-red-500 text-[11px] font-medium">Country is required</div>
+            </div>
+
+            <!-- State / Province -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">State / Province</label>
+              <input #inputRef #stateModel="ngModel" name="state" [(ngModel)]="formData.state" required placeholder="e.g. California" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 placeholder:text-[#9ea8b3]"
+                [ngClass]="{'border-red-500 focus:ring-red-500': stateModel.invalid && stateModel.touched}">
+              <div *ngIf="stateModel.invalid && stateModel.touched" class="text-red-500 text-[11px] font-medium">State/Province is required</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Professional Profile -->
+        <section class="space-y-6">
+          <div class="flex items-center gap-3 pb-3 border-b border-[#f0f4fa]">
+            <span class="material-symbols-outlined text-[#019ce4] text-[22px]">badge</span>
+            <h3 class="text-[18px] font-bold text-[#181c21]">Professional Profile</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Job Title -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Job Title</label>
+              <input #inputRef #jobModel="ngModel" name="jobTitle" [(ngModel)]="formData.jobTitle" required placeholder="Senior Software Engineer" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all"
+                [ngClass]="{'border-red-500 focus:ring-red-500': jobModel.invalid && jobModel.touched}">
+              <div *ngIf="jobModel.invalid && jobModel.touched" class="text-red-500 text-[11px] font-medium">Job title is required</div>
+            </div>
+
+            <!-- Primary Specialization -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Primary Specialization</label>
+              <input #inputRef #specModel="ngModel" name="specialization" [(ngModel)]="formData.specialization" required placeholder="e.g. Machine Learning" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all"
+                [ngClass]="{'border-red-500 focus:ring-red-500': specModel.invalid && specModel.touched}">
+              <div *ngIf="specModel.invalid && specModel.touched" class="text-red-500 text-[11px] font-medium">Specialization is required</div>
+            </div>
+
+            <!-- Highest Education Level -->
+            <div class="md:col-span-2 flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Highest Education Level</label>
+              <select #inputRef #eduModel="ngModel" name="educationLevel" [(ngModel)]="formData.educationLevel" required 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none appearance-none cursor-pointer focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all"
+                [ngClass]="{'border-red-500 focus:ring-red-500': eduModel.invalid && eduModel.touched}"
+                style="background-image:url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%236f7882\' stroke-width=\'2\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px">
+                <option value="" disabled selected>Select level</option>
+                <option *ngFor="let l of educationLevels" [value]="l.value">{{l.label}}</option>
+              </select>
+              <div *ngIf="eduModel.invalid && eduModel.touched" class="text-red-500 text-[11px] font-medium">Education level is required</div>
+            </div>
+
+            <!-- Professional Bio -->
+            <div class="md:col-span-2 flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Professional Bio</label>
+              <textarea #inputRef #bioModel="ngModel" name="bio" [(ngModel)]="formData.bio" required rows="4" placeholder="Tell us about your background..." 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all resize-none"
+                [ngClass]="{'border-red-500 focus:ring-red-500': bioModel.invalid && bioModel.touched}"></textarea>
+              <div *ngIf="bioModel.invalid && bioModel.touched" class="text-red-500 text-[11px] font-medium">Professional bio is required</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Experience & Portfolio -->
+        <section class="space-y-6">
+          <div class="flex items-center gap-3 pb-3 border-b border-[#f0f4fa]">
+            <span class="material-symbols-outlined text-[#019ce4] text-[22px]">military_tech</span>
+            <h3 class="text-[18px] font-bold text-[#181c21]">Experience & Portfolio</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Years of Experience -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Years of Experience</label>
+              <input #inputRef #expModel="ngModel" name="yearsExp" [(ngModel)]="formData.yearsExp" required type="number" placeholder="5" 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none transition-all focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10"
+                [ngClass]="{'border-red-500 focus:ring-red-500': expModel.invalid && expModel.touched}">
+              <div *ngIf="expModel.invalid && expModel.touched" class="text-red-500 text-[11px] font-medium">Years of experience is required</div>
+            </div>
+
+            <!-- LinkedIn Profile URL -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">LinkedIn Profile URL</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#bec8d2] text-[18px]">link</span>
+                <input #inputRef #linkModel="ngModel" name="linkedin" [(ngModel)]="formData.linkedin" required placeholder="https://linkedin.com/..." 
+                  class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] pl-10 pr-3.5 py-2.5 outline-none focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all"
+                  [ngClass]="{'border-red-500 focus:ring-red-500': linkModel.invalid && linkModel.touched}">
+              </div>
+              <div *ngIf="linkModel.invalid && linkModel.touched" class="text-red-500 text-[11px] font-medium">LinkedIn URL is required</div>
+            </div>
+
+            <!-- Relevant Certifications -->
+            <div class="md:col-span-2 flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">Relevant Certifications</label>
+              <textarea #inputRef #certModel="ngModel" name="certifications" [(ngModel)]="formData.certifications" required rows="3" placeholder="e.g. AWS Solutions Architect..." 
+                class="w-full font-sans text-[14px] text-[#181c21] bg-white border border-[#d4dae3] rounded-[8px] px-3.5 py-2.5 outline-none focus:border-[#019ce4] focus:ring-2 focus:ring-[#019ce4]/10 transition-all resize-none"
+                [ngClass]="{'border-red-500 focus:ring-red-500': certModel.invalid && certModel.touched}"></textarea>
+              <div *ngIf="certModel.invalid && certModel.touched" class="text-red-500 text-[11px] font-medium">Relevant certifications are required</div>
+              <p *ngIf="!(certModel.invalid && certModel.touched)" class="text-[11px] text-[#6f7882] italic mt-1">List your professional certifications separated by commas.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: Media & Assets -->
+        <section class="space-y-6">
+          <div class="flex items-center gap-3 pb-3 border-b border-[#f0f4fa]">
+            <span class="material-symbols-outlined text-[#019ce4] text-[22px]">video_library</span>
+            <h3 class="text-[18px] font-bold text-[#181c21]">Media & Assets</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Intro Video Upload Box -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">INTRO VIDEO</label>
+              <div (click)="videoInput.click()" 
+                class="border-2 border-dashed border-[#d4dae3] rounded-[10px] bg-[#f7f9ff] flex flex-col items-center justify-center py-8 px-4 cursor-pointer hover:border-[#019ce4] hover:bg-[#eef7fd] transition-all group h-[180px]"
+                [ngClass]="{'!border-red-500 !bg-red-50': isSubmitted && !uploadedVideoName}">
+                <input #videoInput type="file" class="hidden" (change)="onVideoSelect($event)" accept="video/*">
+                <div class="w-12 h-12 bg-[#f0f4fa] rounded-full flex items-center justify-center text-[#019ce4] mb-3 group-hover:scale-110 transition-transform shadow-sm"
+                  [ngClass]="{'!bg-white !text-red-500': isSubmitted && !uploadedVideoName}">
+                  <span class="material-symbols-outlined text-[24px]" style='font-variation-settings: "FILL" 1;'>movie</span>
+                </div>
+                <p class="text-[15px] font-bold text-[#181c21] text-center px-2 truncate w-full"
+                  [ngClass]="{'!text-red-600': isSubmitted && !uploadedVideoName}">
+                  {{ uploadedVideoName || 'Upload Intro Video' }}
+                </p>
+                <p class="text-[11px] text-[#6f7882] mt-1 uppercase"
+                  [ngClass]="{'!text-red-400': isSubmitted && !uploadedVideoName}">
+                  MP4, MOV or AVI · max 50MB
+                </p>
+              </div>
+              <div *ngIf="isSubmitted && !uploadedVideoName" class="text-red-500 text-[11px] font-medium">Intro video is required</div>
+            </div>
+
+            <!-- Curriculum Vitae (CV) Upload Box -->
+            <div class="flex flex-col gap-1.5 w-full">
+              <label class="text-[13px] font-bold text-[#181c21]">CURRICULUM VITAE (CV)</label>
+              <div (click)="fileInput.click()" 
+                class="border-2 border-dashed border-[#d4dae3] rounded-[10px] bg-[#f7f9ff] flex flex-col items-center justify-center py-8 px-4 cursor-pointer hover:border-[#019ce4] hover:bg-[#eef7fd] transition-all group h-[180px]"
+                [ngClass]="{'!border-red-500 !bg-red-50': isSubmitted && !uploadedFileName}">
+                <input #fileInput type="file" class="hidden" (change)="onFileSelect($event)" accept=".pdf,.docx">
+                <div class="w-12 h-12 bg-[#f0f4fa] rounded-full flex items-center justify-center text-[#019ce4] mb-3 group-hover:scale-110 transition-transform shadow-sm"
+                  [ngClass]="{'!bg-white !text-red-500': isSubmitted && !uploadedFileName}">
+                  <span class="material-symbols-outlined text-[24px]" style='font-variation-settings: "FILL" 1;'>description</span>
+                </div>
+                <p class="text-[15px] font-bold text-[#181c21] text-center px-2 truncate w-full"
+                  [ngClass]="{'!text-red-600': isSubmitted && !uploadedFileName}">
+                  {{ uploadedFileName || 'Upload Resume / CV' }}
+                </p>
+                <p class="text-[11px] text-[#6f7882] mt-1 uppercase"
+                  [ngClass]="{'!text-red-400': isSubmitted && !uploadedFileName}">
+                  PDF or DOCX · max 10MB
+                </p>
+              </div>
+              <div *ngIf="isSubmitted && !uploadedFileName" class="text-red-500 text-[11px] font-medium">CV is required</div>
+            </div>
+          </div>
+          <p class="text-[11px] text-[#6f7882] text-center italic mt-2">Keep your intro video brief (1–2 minutes) and focused on your expertise</p>
+        </section>
+
+        <!-- Final Action -->
+        <div class="pt-8 border-t border-[#f0f4fa] space-y-6">
+          <button type="submit" [disabled]="isLoading" 
+            class="w-full bg-[#019ce4] text-white py-4 rounded-[8px] text-[16px] font-bold hover:bg-[#0186c4] transition-all shadow-[0_2px_8px_rgba(1,156,228,0.18)] disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ isLoading ? 'Submitting Application...' : 'Submit My Application' }}
+          </button>
+          <div class="flex justify-center items-center gap-2 text-[#3f4851]">
+            <span class="material-symbols-outlined text-[#019ce4] text-[18px]">info</span>
+            <p class="text-[11px]">Applications are manually verified. You will receive a response within 3-5 business days.</p>
+          </div>
+        </div>
+     </form>
+    </div>
+
+    <!-- 👇 زرار العودة للـ Sign In 👇 -->
+    <div class="mt-8 text-center">
+      <a class="inline-flex items-center gap-2 text-[14px] font-bold text-[#019ce4] hover:text-[#0186c4] transition-colors group cursor-pointer" routerLink="/signin">
+        <span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform duration-300">arrow_back</span>
+        <span>Back to Sign In</span>
+      </a>
+    </div>
+    <!-- 👆 نهاية زرار العودة 👆 -->
+
+    <!-- Security Footer -->
+    <div class="mt-8 flex items-center justify-center gap-2 text-[12px] text-[#6f7882] font-medium opacity-80">
+      <span class="material-symbols-outlined text-[#019ce4] text-[18px]">verified_user</span>
+      Secure AES-256 Encryption & GDPR Compliant Data Privacy
+    </div>
+  </main>
+</div>

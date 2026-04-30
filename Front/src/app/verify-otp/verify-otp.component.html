@@ -1,0 +1,87 @@
+
+<main class="min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="flex flex-col items-center text-center mb-8">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="material-symbols-outlined text-[36px] text-primary" style='font-variation-settings: "FILL" 1;'>school</span>
+      <span class="text-[28px] font-bold text-primary tracking-tight font-headline">EduLearn</span>
+    </div>
+    <h1 class="text-[28px] font-bold text-on-surface leading-tight mb-2 font-headline">Verify Your Email</h1>
+    <p class="text-[15px] text-on-surface-variant font-normal">
+      We've sent a 6-digit code to <strong>{{ email }}</strong>. Please enter it below to continue.
+    </p>
+  </div>
+
+  <div class="bg-surface-container-lowest rounded-[12px] p-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-surface-container w-full max-w-[440px]">
+
+    <div *ngIf="errorMessage" class="mb-5 p-3 bg-red-100 text-red-700 rounded-[8px] text-[13px] text-center font-medium">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="mb-5 p-3 bg-green-100 text-green-700 rounded-[8px] text-[13px] text-center font-medium">
+      {{ successMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="space-y-8">
+      <div class="flex justify-between gap-2">
+        <input [(ngModel)]="otpDigits.digit1" name="digit1" #digit1Ref (input)="moveFocus(digit2Ref)" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+        <input [(ngModel)]="otpDigits.digit2" name="digit2" #digit2Ref (input)="moveFocus(digit3Ref)" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+        <input [(ngModel)]="otpDigits.digit3" name="digit3" #digit3Ref (input)="moveFocus(digit4Ref)" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+        <input [(ngModel)]="otpDigits.digit4" name="digit4" #digit4Ref (input)="moveFocus(digit5Ref)" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+        <input [(ngModel)]="otpDigits.digit5" name="digit5" #digit5Ref (input)="moveFocus(digit6Ref)" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+        <input [(ngModel)]="otpDigits.digit6" name="digit6" #digit6Ref (input)="onSubmit()" maxlength="1"
+               class="w-12 h-14 text-center text-xl font-semibold rounded-[8px] border border-outline-variant bg-surface-container-lowest focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none transition-all"
+               type="text" autocomplete="off"/>
+      </div>
+
+      <div class="space-y-5">
+        <button [disabled]="isLoading"
+                class="w-full bg-primary text-on-primary rounded-[8px] py-3 px-4 text-[14px] font-semibold hover:bg-primary-container transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:outline-none flex justify-center items-center gap-2 disabled:opacity-60"
+                type="submit">
+          <span>{{ isLoading ? 'Verifying...' : 'Verify & Continue' }}</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </button>
+
+        <div class="flex flex-col items-center gap-2 text-[14px]">
+          <p class="text-on-surface-variant">
+            Didn't receive the code?
+            <button
+              (click)="resendCode()"
+              [disabled]="timer > 0 || isResending"
+              class="font-semibold ml-1 transition-opacity"
+              [class.text-primary]="timer === 0 && !isResending"
+              [class.hover:opacity-80]="timer === 0 && !isResending"
+              [class.text-outline]="timer > 0 || isResending"
+              [class.opacity-50]="timer > 0 || isResending"
+              [class.cursor-not-allowed]="timer > 0 || isResending"
+              [class.cursor-pointer]="timer === 0 && !isResending"
+              type="button">
+              {{ isResending ? 'Resending...' : 'Resend Code' }}
+            </button>
+            <span *ngIf="timer > 0" class="text-outline ml-1">({{ displayTimer }})</span>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-8 text-center">
+    <a class="inline-flex items-center gap-2 text-[14px] font-semibold text-primary hover:opacity-80 transition-opacity group" routerLink="/register">
+      <span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">keyboard_backspace</span>
+      <span>Back to Register</span>
+    </a>
+  </div>
+
+  <div class="flex items-center justify-center gap-2 text-[13px] font-medium text-on-surface-variant mt-8">
+    <span class="material-symbols-outlined text-[18px] text-primary" style='font-variation-settings: "FILL" 1;'>verified_user</span>
+    Secure AES-256 Encryption & GDPR Compliant Data Privacy
+  </div>
+</main>
